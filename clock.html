@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>사무실 시계</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Noto+Sans+KR:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0d1b2a 0%, #1b2d45 50%, #0d1b2a 100%);
+      font-family: 'Noto Sans KR', sans-serif;
+      overflow: hidden;
+    }
+
+    .clock-container {
+      text-align: center;
+      user-select: none;
+    }
+
+    .time {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(3rem, 14vw, 12rem);
+      font-weight: 700;
+      color: #87CEEB;
+      letter-spacing: 0.05em;
+      text-shadow:
+        0 0 20px rgba(135, 206, 235, 0.5),
+        0 0 60px rgba(135, 206, 235, 0.2);
+      line-height: 1;
+    }
+
+    .colon {
+      display: inline-block;
+      animation: blink 1s step-end infinite;
+      margin: 0 0.02em;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.15; }
+    }
+
+    .date {
+      margin-top: clamp(1rem, 3vw, 2.5rem);
+      font-size: clamp(1rem, 3vw, 2rem);
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.75);
+      letter-spacing: 0.08em;
+    }
+
+    .divider {
+      width: 60%;
+      max-width: 400px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(135, 206, 235, 0.4), transparent);
+      margin: clamp(0.8rem, 2vw, 1.5rem) auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="clock-container">
+    <div class="time" id="time">00<span class="colon">:</span>00<span class="colon">:</span>00</div>
+    <div class="divider"></div>
+    <div class="date" id="date"></div>
+  </div>
+
+  <script>
+    function update() {
+      const now = new Date();
+
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('time').innerHTML =
+        h + '<span class="colon">:</span>' + m + '<span class="colon">:</span>' + s;
+
+      const dateStr = now.toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        weekday: 'long'
+      });
+      document.getElementById('date').textContent = dateStr;
+    }
+
+    update();
+    setInterval(update, 1000);
+  </script>
+</body>
+</html>
